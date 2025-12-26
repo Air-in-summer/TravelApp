@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodel="clr-namespace:TravelApplication.ViewModels"
+             xmlns:models="clr-namespace:TravelApplication.Models"
+             x:Class="TravelApplication.Pages.MajorPage.PersonalPage"
+             Title="Profile"
+             BackgroundColor="#F5F5F5">
+    
+    <ContentPage.BindingContext>
+        <viewmodel:PersonalViewModel />
+    </ContentPage.BindingContext>
+
+    <Grid RowDefinitions="Auto,*">
+        
+        <!-- Header Section -->
+        <VerticalStackLayout Grid.Row="0" Spacing="0">
+            
+            <!-- Cover Background -->
+            <BoxView HeightRequest="120">
+                <BoxView.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#2196F3" Offset="0.0" />
+                        <GradientStop Color="#1976D2" Offset="1.0" />
+                    </LinearGradientBrush>
+                </BoxView.Background>
+            </BoxView>
+
+            <!-- Profile Info Card -->
+            <Border Margin="15,-50,15,0"
+                    Padding="20"
+                    BackgroundColor="White"
+                    StrokeThickness="0">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="15"/>
+                </Border.StrokeShape>
+                <Border.Shadow>
+                    <Shadow Brush="Black" Opacity="0.1" Radius="10" Offset="0,2"/>
+                </Border.Shadow>
+                
+                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="15">
+                    <!-- Avatar -->
+                    <Border Grid.Column="0"
+                            WidthRequest="80"
+                            HeightRequest="80"
+                            StrokeThickness="3"
+                            Stroke="#2196F3"
+                            BackgroundColor="White"
+                            VerticalOptions="Center">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="40"/>
+                        </Border.StrokeShape>
+                        <Label Text="👤" 
+                               FontSize="50" 
+                               HorizontalOptions="Center" 
+                               VerticalOptions="Center"/>
+                    </Border>
+                    
+                    <!-- User Info -->
+                    <VerticalStackLayout Grid.Column="1" 
+                                        VerticalOptions="Center"
+                                        Spacing="5">
+                        <Label Text="{Binding UserName}"
+                               FontSize="22"
+                               FontAttributes="Bold"
+                               TextColor="#212121"/>
+                        
+                        <HorizontalStackLayout Spacing="6">
+                            <Label Text="📧"
+                                   FontSize="14"
+                                   VerticalOptions="Center"/>
+                            <Label Text="{Binding Email}"
+                                   FontSize="14"
+                                   TextColor="#757575"
+                                   VerticalOptions="Center"/>
+                        </HorizontalStackLayout>
+                    </VerticalStackLayout>
+                </Grid>
+            </Border>
+            
+            <!-- Action Buttons -->
+            <Grid ColumnDefinitions="*,*" 
+                  ColumnSpacing="10" 
+                  Margin="15,15,15,10">
+                
+                <!-- Account Settings Button -->
+                <Border Grid.Column="0"
+                        StrokeThickness="0"
+                        BackgroundColor="#2196F3"
+                        HeightRequest="80">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="12"/>
+                    </Border.StrokeShape>
+                    <Border.Shadow>
+                        <Shadow Brush="#2196F3" Opacity="0.3" Radius="8" Offset="0,4"/>
+                    </Border.Shadow>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding GoToAccountCommand}"/>
+                    </Border.GestureRecognizers>
+                    
+                    <VerticalStackLayout Spacing="8" VerticalOptions="Center">
+                        <Label Text="⚙️" 
+                               FontSize="32"
+                               HorizontalOptions="Center"/>
+                        <Label Text="Settings"
+                               FontSize="14"
+                               FontAttributes="Bold"
+                               TextColor="White"
+                               HorizontalOptions="Center"/>
+                    </VerticalStackLayout>
+                </Border>
+                
+                <!-- Add Review Button -->
+                <Border Grid.Column="1"
+                        StrokeThickness="0"
+                        BackgroundColor="#4CAF50"
+                        HeightRequest="80">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="12"/>
+                    </Border.StrokeShape>
+                    <Border.Shadow>
+                        <Shadow Brush="#4CAF50" Opacity="0.3" Radius="8" Offset="0,4"/>
+                    </Border.Shadow>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding AddReviewCommand}"/>
+                    </Border.GestureRecognizers>
+                    
+                    <VerticalStackLayout Spacing="8" VerticalOptions="Center">
+                        <Label Text="➕" 
+                               FontSize="32"
+                               HorizontalOptions="Center"/>
+                        <Label Text="Add Review"
+                               FontSize="14"
+                               FontAttributes="Bold"
+                               TextColor="White"
+                               HorizontalOptions="Center"/>
+                    </VerticalStackLayout>
+                </Border>
+            </Grid>
+
+            <!-- My Reviews Header -->
+            <Label Text="My Reviews"
+                   FontSize="20"
+                   FontAttributes="Bold"
+                   Margin="20,10,20,10"
+                   TextColor="#212121"/>
+        </VerticalStackLayout>
+
+        <!-- My Reviews List -->
+        <RefreshView Grid.Row="1"
+                     IsRefreshing="{Binding IsRefreshing}"
+                     Command="{Binding LoadMyReviewsCommand}"
+                     Margin="15,0,15,10">
+            
+            <CollectionView ItemsSource="{Binding MyReviews}">
+                <CollectionView.EmptyView>
+                    <VerticalStackLayout VerticalOptions="Center" 
+                                        HorizontalOptions="Center" 
+                                        Spacing="15"
+                                        Padding="20">
+                        <Border WidthRequest="100"
+                                HeightRequest="100"
+                                BackgroundColor="#E3F2FD"
+                                StrokeThickness="0"
+                                HorizontalOptions="Center">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="50"/>
+                            </Border.StrokeShape>
+                            <Label Text="📝" 
+                                   FontSize="50" 
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center"/>
+                        </Border>
+                        <Label Text="No reviews yet" 
+                               FontSize="20" 
+                               FontAttributes="Bold"
+                               TextColor="#212121"
+                               HorizontalOptions="Center"/>
+                        <Label Text="Share your travel experiences!"
+                               FontSize="14"
+                               TextColor="Gray"
+                               HorizontalOptions="Center"
+                               HorizontalTextAlignment="Center"/>
+                    </VerticalStackLayout>
+                </CollectionView.EmptyView>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:Review">
+                        <Border Margin="0,0,0,12"
+                                Padding="0"
+                                StrokeThickness="0"
+                                BackgroundColor="White">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="15"/>
+                            </Border.StrokeShape>
+                            <Border.Shadow>
+                                <Shadow Brush="Black" Opacity="0.08" Radius="10" Offset="0,2"/>
+                            </Border.Shadow>
+                            
+                            <Grid RowDefinitions="Auto,Auto,Auto,Auto" 
+                                  Padding="18"
+                                  RowSpacing="10">
+                                
+                                <!-- Place Name + Rating -->
+                                <Grid Grid.Row="0" ColumnDefinitions="*,Auto">
+                                    <Label Grid.Column="0"
+                                           Text="{Binding PlaceName}"
+                                           FontSize="18"
+                                           FontAttributes="Bold"
+                                           TextColor="#212121"
+                                           VerticalOptions="Center"/>
+                                    
+                                    <Border Grid.Column="1"
+                                            Padding="8,4"
+                                            BackgroundColor="#FFF3E0"
+                                            StrokeThickness="0">
+                                        <Border.StrokeShape>
+                                            <RoundRectangle CornerRadius="12"/>
+                                        </Border.StrokeShape>
+                                        <Label Text="{Binding Rating, StringFormat='⭐ {0}'}"
+                                               FontSize="14"
+                                               FontAttributes="Bold"
+                                               TextColor="#FF9800"/>
+                                    </Border>
+                                </Grid>
+                                
+                                <!-- Review Text -->
+                                <Label Grid.Row="1"
+                                       Text="{Binding ReviewText}"
+                                       FontSize="15"
+                                       TextColor="#424242"
+                                       LineBreakMode="WordWrap"
+                                       MaxLines="3"/>
+                                
+                                <!-- Date -->
+                                <HorizontalStackLayout Grid.Row="2" Spacing="6">
+                                    <Label Text="🕒"
+                                           FontSize="12"
+                                           VerticalOptions="Center"/>
+                                    <Label Text="{Binding UpdatedAt, StringFormat='{0:dd MMM yyyy}'}"
+                                           FontSize="13"
+                                           TextColor="#757575"
+                                           VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+                                
+                                <!-- Action Buttons -->
+                                <Grid Grid.Row="3" 
+                                      ColumnDefinitions="*,*" 
+                                      ColumnSpacing="10"
+                                      Margin="0,5,0,0">
+                                    <Border Grid.Column="0"
+                                            StrokeThickness="1"
+                                            Stroke="#2196F3"
+                                            BackgroundColor="Transparent"
+                                            Padding="0,10">
+                                        <Border.StrokeShape>
+                                            <RoundRectangle CornerRadius="8"/>
+                                        </Border.StrokeShape>
+                                        <Border.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:PersonalViewModel}}, Path=EditReviewCommand}"
+                                                                  CommandParameter="{Binding .}"/>
+                                        </Border.GestureRecognizers>
+                                        <Label Text="✏️ Edit"
+                                               FontSize="14"
+                                               FontAttributes="Bold"
+                                               TextColor="#2196F3"
+                                               HorizontalOptions="Center"/>
+                                    </Border>
+                                    
+                                    <Border Grid.Column="1"
+                                            StrokeThickness="1"
+                                            Stroke="#F44336"
+                                            BackgroundColor="Transparent"
+                                            Padding="0,10">
+                                        <Border.StrokeShape>
+                                            <RoundRectangle CornerRadius="8"/>
+                                        </Border.StrokeShape>
+                                        <Border.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:PersonalViewModel}}, Path=DeleteReviewCommand}"
+                                                                  CommandParameter="{Binding .}"/>
+                                        </Border.GestureRecognizers>
+                                        <Label Text="🗑️ Delete"
+                                               FontSize="14"
+                                               FontAttributes="Bold"
+                                               TextColor="#F44336"
+                                               HorizontalOptions="Center"/>
+                                    </Border>
+                                </Grid>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+    </Grid>
+</ContentPage>

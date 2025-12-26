@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="TravelApplication.Pages.ManagePage.LoginPage"
+             Padding="0">
+    <Grid>
+        <!-- Background Image -->
+        <Image Source="santorini.png" 
+               x:Name="backgroundimage"
+               Aspect="AspectFill" 
+               VerticalOptions="Fill" 
+               HorizontalOptions="Fill"
+                >
+        </Image>
+
+
+        <!-- Nội dung chính -->
+        <ScrollView>
+            <VerticalStackLayout Padding="40,100,40,40" Spacing="35" VerticalOptions="Start">
+
+                <!-- Logo -->
+                <Image Source="icon_rmbg.png"
+                       WidthRequest="180"
+                       HeightRequest="150"
+                       HorizontalOptions="Center" />
+
+                <!-- Tiêu đề -->
+                <VerticalStackLayout Spacing="5" HorizontalOptions="Center">
+                    <Label Text="Welcome Back"
+                           FontSize="36"
+                           FontAttributes="Bold"
+                           TextColor="#283B5A"
+                           HorizontalOptions="Center" />
+
+                    <Label Text="Sign in to continue your journey"
+                           FontSize="18"
+                           TextColor="#283B5A"
+                           HorizontalOptions="Center" />
+                </VerticalStackLayout>
+
+                <!-- Ô nhập -->
+                <VerticalStackLayout Spacing="20">
+                    <!-- Username -->
+                    <Frame BackgroundColor="White"
+                           CornerRadius="25"
+                           HeightRequest="60"
+                           Padding="20,0"
+                           HasShadow="False">
+                        <Grid ColumnDefinitions="40,*">
+                            <Image Grid.Column="0"
+                                   Source="user_icon.png"
+                                   WidthRequest="30"
+                                   HeightRequest="30"
+                                   VerticalOptions="Center" />
+                            <Entry x:Name="UsernameEntry"
+                                   Grid.Column="1"
+                                   Placeholder="Username or Email"
+                                   PlaceholderColor="#858585"
+                                   TextColor="Black"
+                                   FontSize="18"
+                                   BackgroundColor="Transparent"
+                                   VerticalOptions="Center"
+                                   Margin="10,0,0,0" />
+                        </Grid>
+                    </Frame>
+
+                    <!-- Password -->
+                    <Frame BackgroundColor="White"
+                           CornerRadius="25"
+                           HeightRequest="60"
+                           Padding="20,0"
+                           HasShadow="False">
+                        <Grid ColumnDefinitions="40,*">
+                            <Image Grid.Column="0"
+                                   Source="password_icon.png"
+                                   WidthRequest="30"
+                                   HeightRequest="30"
+                                   VerticalOptions="Center" />
+                            <Entry x:Name="PasswordEntry" Grid.Column="1"
+                                   Placeholder="Password"
+                                   PlaceholderColor="#858585"
+                                   TextColor="Black"
+                                   FontSize="18"
+                                   BackgroundColor="Transparent"
+                                   IsPassword="True"
+                                   VerticalOptions="Center"
+                                   Margin="10,0,0,0" />
+                        </Grid>
+                    </Frame>
+                </VerticalStackLayout>
+
+                <!-- Nút đăng nhập -->
+                <Frame CornerRadius="25"
+                       HeightRequest="60"
+                       HasShadow="False"
+                       Padding="0"
+                       BackgroundColor="Transparent">
+                    <Frame.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                            <GradientStop Color="#EF9B56" Offset="0" />
+                            <GradientStop Color="#CE6F2D" Offset="1" />
+                        </LinearGradientBrush>
+                    </Frame.Background>
+
+                    <Button Text="Sign In"
+                            Clicked="OnLoginClicked"
+                            FontSize="20"
+                            FontAttributes="Bold"
+                            TextColor="White"
+                            BackgroundColor="Transparent"
+                            BorderWidth="0"
+                            CornerRadius="25"
+                            HeightRequest="60" />
+                </Frame>
+                <Label x:Name="ErrorLabel" TextColor="Red" IsVisible="False" />
+
+                <!-- Dòng đăng ký -->
+                <VerticalStackLayout Spacing="15" HorizontalOptions="Center">
+                    <Label Text="Don't have an account?"
+                           FontSize="18"
+                           TextColor="White"
+                           HorizontalOptions="Center" />
+
+                    <Frame BackgroundColor="#283B5A"
+                           CornerRadius="25"
+                           HeightRequest="50"
+                           WidthRequest="200"
+                           Padding="0"
+                           HasShadow="False">
+                        <Button Text="Sign Up"
+                                FontSize="16"
+                                FontAttributes="Bold"
+                                TextColor="White"
+                                BackgroundColor="Transparent"
+                                Clicked="OnRegisterClicked"
+                                BorderWidth="0"
+                                CornerRadius="25"
+                                HeightRequest="50" />
+                    </Frame>
+                </VerticalStackLayout>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

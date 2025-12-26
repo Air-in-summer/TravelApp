@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="TravelApplication.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:TravelApplication"
+    xmlns:manage="clr-namespace:TravelApplication.Pages.ManagePage"
+    xmlns:majorpage="clr-namespace:TravelApplication.Pages.MajorPage"
+    Shell.FlyoutBehavior="Disabled"
+    Title="TravelApplication"
+    
+    Shell.TabBarBackgroundColor="Black" 
+    Shell.TabBarTitleColor="White"
+    Shell.TabBarForegroundColor="White"
+    Shell.TabBarUnselectedColor="Grey"
+    Shell.BackgroundColor="White"
+    >
+
+    
+
+    <TabBar>
+        
+        <ShellContent
+            Icon="Resources/Images/Shell/trip_icon.jpg"
+            Title="Your Trips"            
+            ContentTemplate="{DataTemplate majorpage:TripsPage}"
+            Route="TripsPage" >
+        </ShellContent>
+        <ShellContent
+            Icon="Resources/Images/Shell/review_icon.jpg"
+            Title="Review"            
+            ContentTemplate="{DataTemplate majorpage:ReviewPage}"
+            Route="ReviewPage" />
+        <ShellContent
+            Icon="Resources/Images/Shell/user_icon.png"
+            Title="You"          
+            ContentTemplate="{DataTemplate majorpage:PersonalPage}"
+            Route="PersonalPage" />
+
+    </TabBar>
+</Shell>

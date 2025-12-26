@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:TravelApplication.ViewModels"
+             xmlns:local="clr-namespace:TravelApplication.Pages.MajorPage"
+             x:Class="TravelApplication.Pages.MajorPage.SurveyPage"
+             x:DataType="viewmodels:SurveyViewModel"
+             x:Name="SurveyPages"
+             BackgroundColor="#F5F5F5"
+             Title="{Binding Title}">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:CategoryBackgroundConverter x:Key="CategoryBackgroundConverter" />
+            <local:CategoryBorderConverter x:Key="CategoryBorderConverter" />
+            <local:CategoryTextColorConverter x:Key="CategoryTextColorConverter" />
+            <local:CategoryCheckmarkConverter x:Key="CategoryCheckmarkConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
+    <Grid RowDefinitions="Auto, *, Auto" Padding="20">
+        
+        <!-- Header Section -->
+        <VerticalStackLayout Grid.Row="0" Spacing="10" Margin="0,10,0,20">
+            <Label Text="What interests you?"
+                   FontSize="28"
+                   FontAttributes="Bold"
+                   TextColor="#212121"/>
+            <Label Text="Choose 3 preferences to explore"
+                   FontSize="16"
+                   TextColor="Gray"/>
+        </VerticalStackLayout>
+
+        <!-- Categories List -->
+        <ScrollView Grid.Row="1">
+            <CollectionView ItemsSource="{Binding Categories}" 
+                          SelectionMode="None"
+                          VerticalOptions="Start">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="12"/>
+                </CollectionView.ItemsLayout>
+                
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="x:String">
+                        <Border StrokeThickness="2"
+                                Padding="18,15">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="12"/>
+                            </Border.StrokeShape>
+                            <Border.Stroke>
+                                <MultiBinding Converter="{StaticResource CategoryBorderConverter}">
+                                    <Binding Path="." />
+                                    <Binding Path="SelectedCategories" Source="{RelativeSource AncestorType={x:Type viewmodels:SurveyViewModel}}" />
+                                </MultiBinding>
+                            </Border.Stroke>
+                            <Border.BackgroundColor>
+                                <MultiBinding Converter="{StaticResource CategoryBackgroundConverter}">
+                                    <Binding Path="." />
+                                    <Binding Path="SelectedCategories" Source="{RelativeSource AncestorType={x:Type viewmodels:SurveyViewModel}}" />
+                                </MultiBinding>
+                            </Border.BackgroundColor>
+                            <Border.Shadow>
+                                <Shadow Brush="Black" Opacity="0.08" Radius="8" Offset="0,2"/>
+                            </Border.Shadow>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:SurveyViewModel}}, Path=ToggleCategoryCommand}"
+                                                      CommandParameter="{Binding .}" />
+                            </Border.GestureRecognizers>
+                            
+                            <HorizontalStackLayout Spacing="12">
+                                <!-- Checkmark Icon -->
+                                <Label FontSize="20" 
+                                       VerticalOptions="Center"
+                                       WidthRequest="24">
+                                    <Label.Text>
+                                        <MultiBinding Converter="{StaticResource CategoryCheckmarkConverter}">
+                                            <Binding Path="." />
+                                            <Binding Path="SelectedCategories" Source="{RelativeSource AncestorType={x:Type viewmodels:SurveyViewModel}}" />
+                                        </MultiBinding>
+                                    </Label.Text>
+                                    <Label.TextColor>
+                                        <MultiBinding Converter="{StaticResource CategoryTextColorConverter}">
+                                            <Binding Path="." />
+                                            <Binding Path="SelectedCategories" Source="{RelativeSource AncestorType={x:Type viewmodels:SurveyViewModel}}" />
+                                        </MultiBinding>
+                                    </Label.TextColor>
+                                </Label>
+                                
+                                <!-- Category Name -->
+                                <Label Text="{Binding .}" 
+                                       FontSize="17"
+                                       FontAttributes="Bold"
+                                       VerticalOptions="Center"
+                                       HorizontalOptions="FillAndExpand">
+                                    <Label.TextColor>
+                                        <MultiBinding Converter="{StaticResource CategoryTextColorConverter}">
+                                            <Binding Path="." />
+                                            <Binding Path="SelectedCategories" Source="{RelativeSource AncestorType={x:Type viewmodels:SurveyViewModel}}" />
+                                        </MultiBinding>
+                                    </Label.TextColor>
+                                </Label>
+                            </HorizontalStackLayout>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </ScrollView>
+
+        <!-- Submit Button -->
+        <Button Grid.Row="2" 
+                Text="Continue ›" 
+                Clicked="OnSubmitPreferencesClicked"
+                BackgroundColor="#2196F3"
+                TextColor="White"
+                FontAttributes="Bold"
+                FontSize="16"
+                HeightRequest="55"
+                CornerRadius="12"
+                Margin="0,20,0,10">
+            <Button.Shadow>
+                <Shadow Brush="#2196F3" Opacity="0.3" Radius="10" Offset="0,4"/>
+            </Button.Shadow>
+        </Button>
+    </Grid>
+</ContentPage>

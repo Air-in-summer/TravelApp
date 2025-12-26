@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodel="clr-namespace:TravelApplication.ViewModels"
+             xmlns:models="clr-namespace:TravelApplication.Models"
+             x:Class="TravelApplication.Pages.WeatherPage"
+             x:DataType="viewmodel:WeatherViewModel"
+             Title="{Binding Title}"
+             BackgroundColor="#F5F5F5">
+    
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="20">
+            
+            <!-- Loading Indicator -->
+            <ActivityIndicator IsVisible="{Binding IsBusy}"
+                             IsRunning="{Binding IsBusy}"
+                             Color="#2196F3"
+                             HeightRequest="50"/>
+            
+            <!-- Error Message -->
+            <Label Text="{Binding ErrorMessage}"
+                   TextColor="#F44336"
+                   FontSize="14"
+                   FontAttributes="Bold"
+                   HorizontalTextAlignment="Center"/>
+            
+            <!-- Weather Content -->
+            <VerticalStackLayout Spacing="20">
+                
+                <!-- Header: Place Name -->
+                <Label Text="{Binding PlaceName}"
+                       FontSize="28"
+                       FontAttributes="Bold"
+                       TextColor="#212121"
+                       HorizontalTextAlignment="Center"/>
+                
+                <!-- Current Weather Card -->
+                <Border BackgroundColor="White"
+                        Padding="25"
+                        StrokeThickness="0">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="20"/>
+                    </Border.StrokeShape>
+                    <Border.Shadow>
+                        <Shadow Brush="Black" Opacity="0.15" Radius="15" Offset="0,5"/>
+                    </Border.Shadow>
+                    <Border.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                            <GradientStop Color="#E3F2FD" Offset="0.0"/>
+                            <GradientStop Color="#BBDEFB" Offset="1.0"/>
+                        </LinearGradientBrush>
+                    </Border.Background>
+                    
+                    <VerticalStackLayout Spacing="12">
+                        <Label Text="{Binding CurrentWeather.Current.WeatherIcon}"
+                               FontSize="90"
+                               HorizontalTextAlignment="Center"/>
+                        <Label Text="{Binding CurrentWeather.Current.Temperature, StringFormat='{0:F1}°C'}"
+                               FontSize="52"
+                               FontAttributes="Bold"
+                               TextColor="#1565C0"
+                               HorizontalTextAlignment="Center"/>
+                        <Label Text="{Binding CurrentWeather.Current.Description}"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               HorizontalTextAlignment="Center"
+                               TextColor="#424242"/>
+                        
+                        <Grid ColumnDefinitions="*,*" Margin="0,15,0,0">
+                            <Border Grid.Column="0"
+                                    Padding="12,8"
+                                    BackgroundColor="#FFFFFF"
+                                    StrokeThickness="0"
+                                    Margin="0,0,5,0">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="10"/>
+                                </Border.StrokeShape>
+                                <HorizontalStackLayout Spacing="6" HorizontalOptions="Center">
+                                    <Label Text="💨" FontSize="20" VerticalOptions="Center"/>
+                                    <Label Text="{Binding CurrentWeather.Current.WindSpeed, StringFormat='{0:F1} km/h'}"
+                                           FontSize="14"
+                                           FontAttributes="Bold"
+                                           TextColor="#424242"
+                                           VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+                            </Border>
+                            
+                            <Border Grid.Column="1"
+                                    Padding="12,8"
+                                    BackgroundColor="#FFFFFF"
+                                    StrokeThickness="0"
+                                    Margin="5,0,0,0">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="10"/>
+                                </Border.StrokeShape>
+                                <HorizontalStackLayout Spacing="6" HorizontalOptions="Center">
+                                    <Label Text="💧" FontSize="20" VerticalOptions="Center"/>
+                                    <Label Text="{Binding CurrentWeather.Current.Humidity, StringFormat='{0}%'}"
+                                           FontSize="14"
+                                           FontAttributes="Bold"
+                                           TextColor="#424242"
+                                           VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+                            </Border>
+                        </Grid>
+                    </VerticalStackLayout>
+                </Border>
+                
+                <!-- Hourly Forecast Section -->
+                <Label Text="📊 Hourly Forecast (Next 24h)"
+                       FontSize="20"
+                       FontAttributes="Bold"
+                       TextColor="#212121"/>
+                
+                <CollectionView ItemsSource="{Binding HourlyForecasts}"
+                              ItemsLayout="HorizontalList"
+                              HeightRequest="150">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:HourlyForecast">
+                            <Border Padding="12"
+                                    Margin="5,0"
+                                    BackgroundColor="White"
+                                    StrokeThickness="0"
+                                    WidthRequest="85">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="15"/>
+                                </Border.StrokeShape>
+                                <Border.Shadow>
+                                    <Shadow Brush="Black" Opacity="0.1" Radius="10" Offset="0,3"/>
+                                </Border.Shadow>
+                                
+                                <VerticalStackLayout Spacing="6" HorizontalOptions="Center">
+                                    <Label Text="{Binding HourLabel}"
+                                           FontSize="13"
+                                           FontAttributes="Bold"
+                                           TextColor="#424242"
+                                           HorizontalTextAlignment="Center"/>
+                                    <Label Text="{Binding WeatherIcon}"
+                                           FontSize="32"
+                                           HorizontalTextAlignment="Center"/>
+                                    <Label Text="{Binding Temperature, StringFormat='{0:F0}°'}"
+                                           FontSize="18"
+                                           FontAttributes="Bold"
+                                           TextColor="#1565C0"
+                                           HorizontalTextAlignment="Center"/>
+                                    <Border Padding="6,3"
+                                            BackgroundColor="#E3F2FD"
+                                            StrokeThickness="0">
+                                        <Border.StrokeShape>
+                                            <RoundRectangle CornerRadius="8"/>
+                                        </Border.StrokeShape>
+                                        <Label Text="{Binding PrecipitationProbability, StringFormat='{0}%'}"
+                                               FontSize="11"
+                                               FontAttributes="Bold"
+                                               TextColor="#1976D2"
+                                               HorizontalTextAlignment="Center"/>
+                                    </Border>
+                                </VerticalStackLayout>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+                
+                <!-- Daily Forecast Section -->
+                <Label Text="📅 7-Day Forecast"
+                       FontSize="20"
+                       FontAttributes="Bold"
+                       TextColor="#212121"
+                       Margin="0,10,0,0"/>
+                
+                <CollectionView ItemsSource="{Binding DailyForecasts}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:DailyForecast">
+                            <Border Padding="18"
+                                    Margin="0,0,0,10"
+                                    BackgroundColor="White"
+                                    StrokeThickness="0">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="15"/>
+                                </Border.StrokeShape>
+                                <Border.Shadow>
+                                    <Shadow Brush="Black" Opacity="0.08" Radius="10" Offset="0,2"/>
+                                </Border.Shadow>
+                                
+                                <Grid ColumnDefinitions="90,*,70,70">
+                                    <Label Grid.Column="0"
+                                           Text="{Binding DayLabel}"
+                                           FontSize="16"
+                                           FontAttributes="Bold"
+                                           TextColor="#212121"
+                                           VerticalOptions="Center"/>
+                                    <Label Grid.Column="1"
+                                           Text="{Binding WeatherIcon}"
+                                           FontSize="32"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Center"/>
+                                    <Label Grid.Column="2"
+                                           Text="{Binding MaxTemperature, StringFormat='{0:F0}°'}"
+                                           FontSize="20"
+                                           FontAttributes="Bold"
+                                           TextColor="#F57C00"
+                                           HorizontalOptions="End"
+                                           VerticalOptions="Center"/>
+                                    <Label Grid.Column="3"
+                                           Text="{Binding MinTemperature, StringFormat='{0:F0}°'}"
+                                           FontSize="18"
+                                           TextColor="#757575"
+                                           HorizontalOptions="End"
+                                           VerticalOptions="Center"/>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+                
+            </VerticalStackLayout>
+            
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
